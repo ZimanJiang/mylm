@@ -1,23 +1,16 @@
-# Hello, world!
-#
-# This is an example function named 'hello'
-# which prints 'Hello, world!'.
-#
-# You can learn more about package authoring with RStudio at:
-#
-#   http://r-pkgs.had.co.nz/
-#
-# Some useful keyboard shortcuts for package authoring:
-#
-#   Install Package:           'Ctrl + Shift + B'
-#   Check Package:             'Ctrl + Shift + E'
-#   Test Package:              'Ctrl + Shift + T'
-
-#hello <- function() {
-#  print("Hello, world!")
-#  print("Hello, Kimmy!")
-#}
-
+#'mylm
+#'
+#'Fit the linear regression model
+#'
+#'@param obj input formula
+#'
+#'@return the summary of the model
+#'
+#'@examples
+#'square(Y~X1+X2)
+#'
+#'@export
+#'
 mylm <- function(obj){
   ##define outcome, predictor, dim #input obj is a formula
   y <- obj[[2]]
@@ -47,8 +40,9 @@ mylm <- function(obj){
   R.square <- 1- SSE /( SSE + SSR )
   adj.R.square <- 1- sigma.2.hat * ( n-1 )/( SSE + SSR )
   ##output
-  coef <- cbind( Estimate = c(beta.hat), Std_Err = se.beta.hat, t_statistic =  )
+  coef <- cbind( Estimate = c(beta.hat), Std_Err = se.beta.hat, t_statistic = t.stat, p_value = ttest.p.value )
+  infer <- c( F.stat, R.squre )
   output <- list(obj,coef,infer)
   print(output)
-  return(0)
+  return(output)
 }
