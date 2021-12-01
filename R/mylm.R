@@ -7,7 +7,7 @@
 #'@return the summary of the model
 #'
 #'@examples
-#'square(Y~X1+X2)
+#'mylm(Y~X1+X2)
 #'
 #'@export
 #'
