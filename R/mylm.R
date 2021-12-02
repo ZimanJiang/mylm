@@ -3,15 +3,14 @@
 #'Fit the linear regression model
 #'
 #'@param obj input formula
+#'@param inputdata dataset
+#'@param style choose different kind of output
 #'
 #'@return the summary of the model
 #'
 #'@examples
-#'mylm(Y~X1+X2)
-#'
-#'library(NHANES)
-#'data(NHANES)
-#'mylm( BMI~Age+Gender,data = NHANES, style = "summary" )
+#
+#'mylm( mpg~wt+gear,inputdata = mtcars, style = "summary" )
 #'
 #'@export
 #'
@@ -43,24 +42,34 @@ mylm <- function(obj, inputdata=NULL, style="simple"){
   var.beta.hat <- diag( solve( t(x) %*% x ) )* c( sigma.2.hat )
   se.beta.hat <- sqrt( var.beta.hat )
   ##inference
+  #t test
   t.stat <- c( beta.hat/se.beta.hat )
   ttest.p.value <- c( 2*( 1-pt( q = abs( t.stat ), df = n-p ) ) )
-  #ttest.p.value[ttest.p.value==0] <- "< 2e-16"
+  #F test
   SSR <- sum((y.hat - mean(y))^2)
   F.stat <- SSR/(p-1)/sigma.2.hat
   Ftest.p.value <- pf( q = F.stat, df1 = p-1, df2 = n-p, lower.tail = F)
+  #R square
   R.square <- 1- SSE /( SSE + SSR )
   adj.R.square <- 1- sigma.2.hat * ( n-1 )/( SSE + SSR )
   ##output
   df <- n-p
+  #coefficient matrix
   coef <- cbind( Estimate = c(beta.hat), Std_Err = se.beta.hat, t_statistic = t.stat, p_value = ttest.p.value )
-  infer <- c( F.stat, R.square, adj.R.square)
-  output <- list(Call = obj, Residuals= sum.e.hat, coefficients=coef,infer)
+  coef.mat <- data.frame(coef)
+  coef.mat <- signif(coef.mat, digits=7)
+  coef.mat$p_value[coef.mat$p_value==0] <- "< 2e-16" #printing format
+  output <- list( Call = obj, Residuals= e.hat, coefficients=coef, RSE = SE, R_squared = R.square, adjusted_R_squared = adj.R.square, f_value = F.stat, df = n-p )
   #print output
   if(style=="summary"){
     cat("Call:\n",
         as.character(obj)[2],as.character(obj)[1],as.character(obj)[3],"\n","\n")
-    cat("Coefficients:\n",colnames(coef),"\n")
+    cat("Coefficients:\n")
+    print(coef.mat)
+    cat("\n")
+    cat("Residual standard error:", signif(SE,4), "on", n-p, "degrees of freedom", "\n")
+    cat("Multiple R-squared:", signif(R.square,4), "Adjusted R-squared", signif(adj.R.square,4), "\n")
+    cat( "F statistic:", F.stat, "on", n-p, "degrees of freedom", "\n")
   }
-  return(output)
+  invisible(output)
 }

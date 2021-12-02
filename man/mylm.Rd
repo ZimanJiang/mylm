@@ -4,7 +4,7 @@
 \alias{mylm}
 \title{mylm}
 \usage{
-mylm(obj)
+mylm(obj, inputdata = NULL, style = "simple")
 }
 \arguments{
 \item{obj}{input formula}
@@ -16,6 +16,6 @@ the summary of the model
 Fit the linear regression model
 }
 \examples{
-mylm(Y~X1+X2)
+mylm( mpg~wt+gear,inputdata = mtcars, style = "summary" )
 
 }
