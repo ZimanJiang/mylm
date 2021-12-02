@@ -4,7 +4,7 @@
 #'
 #'@param obj input formula
 #'@param inputdata dataset
-#'@param style choose different kind of output
+#'@param style Choose different kind of output. Nothing prints out if style = "nothing". Get only the model and coefficients if style = "simple". Get a summary of linear regresion if style = "summary"
 #'
 #'@return the summary of the model
 #'
@@ -70,6 +70,11 @@ mylm <- function(obj, inputdata=NULL, style="simple"){
     cat("Residual standard error:", signif(SE,4), "on", n-p, "degrees of freedom", "\n")
     cat("Multiple R-squared:", signif(R.square,4), "Adjusted R-squared", signif(adj.R.square,4), "\n")
     cat( "F statistic:", F.stat, "on", n-p, "degrees of freedom", "\n")
+  }else if( style == "simple" ){
+    cat("Call:\n",
+        as.character(obj)[2],as.character(obj)[1],as.character(obj)[3],"\n","\n")
+    cat("Coefficients:\n")
+    cat(t(beta.hat))
   }
   invisible(output)
 }
