@@ -2,20 +2,36 @@
 % Please edit documentation in R/mylm.R
 \name{mylm}
 \alias{mylm}
-\title{mylm}
+\title{Fitting linear Models}
 \usage{
 mylm(obj, inputdata = NULL, style = "simple")
 }
 \arguments{
 \item{obj}{input formula}
+
+\item{inputdata}{dataset}
+
+\item{style}{Choose different kind of output. Nothing prints out if style = "nothing". Get only the model and coefficients if style = "simple". Get a summary of linear regresion if style = "summary"}
 }
 \value{
-the summary of the model
+\itemize{
+  \item Call - the formula of the model
+  \item fitted_value - the fitted mean value
+  \item Residuals - the usual residuals of the model
+  \item coefficients - a p*4 matrix with columns for the estimated coefficients, their standard error, t-statistics and p-value of the t-test
+  \item RSE - the square root of estimated variance (mean square error)
+  \item R_squared - the fraction of variance explained by the model
+  \item adjusted_R_squared - the fraction of variance explained by the model penalized by p
+  \item f_value - the statistic of F test
+  \item p_f - the p value of F test
+  \item df - degrees of freedom, a 2-vector (p,n-p)
+}
 }
 \description{
-Fit the linear regression model
+Fit the linear regression model.
 }
 \examples{
 mylm( mpg~wt+gear,inputdata = mtcars, style = "summary" )
+mylm( mtcars$mpg~mtcars$wt+mtcars$gear )
 
 }

@@ -2,18 +2,21 @@
 #'
 #'Fit the linear regression model.
 #'
-#'@import stats, datasets
+#'@import stats datasets
+#'
 #'
 #'@param obj input formula
 #'@param inputdata dataset
 #'@param style Choose different kind of output. Nothing prints out if style = "nothing". Get only the model and coefficients if style = "simple". Get a summary of linear regresion if style = "summary"
 #'
+#'
+#'
 #'@return
-#'#' \itemize{
+#' \itemize{
 #'   \item Call - the formula of the model
 #'   \item fitted_value - the fitted mean value
 #'   \item Residuals - the usual residuals of the model
-#'   \item coefficients - a p\times 4 matrix with columns for the estimated coefficients, their standard error, t-statistics and p-value of the t-test
+#'   \item coefficients - a p*4 matrix with columns for the estimated coefficients, their standard error, t-statistics and p-value of the t-test
 #'   \item RSE - the square root of estimated variance (mean square error)
 #'   \item R_squared - the fraction of variance explained by the model
 #'   \item adjusted_R_squared - the fraction of variance explained by the model penalized by p
@@ -21,6 +24,8 @@
 #'   \item p_f - the p value of F test
 #'   \item df - degrees of freedom, a 2-vector (p,n-p)
 #' }
+#'
+#'
 #'
 #'@examples
 #

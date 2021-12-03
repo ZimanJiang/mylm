@@ -2,13 +2,19 @@
 #'
 #'Predicted values of a new dataset based on the fitted linear regression model.
 #'
-#'@import stats, datasets
+#'
+#'
+#'@import stats datasets
+#'
+#'
 #'
 #'@param op output of mylm function
 #'@param newdata new dataset
 #'
+#'
+#'
 #'@return
-#'Prediction of model
+#'Predicted values based on the linear model
 #'
 #'@examples
 #
