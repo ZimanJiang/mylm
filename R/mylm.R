@@ -6,11 +6,23 @@
 #'@param inputdata dataset
 #'@param style Choose different kind of output. Nothing prints out if style = "nothing". Get only the model and coefficients if style = "simple". Get a summary of linear regresion if style = "summary"
 #'
-#'@return the summary of the model
+#'@return
+#'#' \itemize{
+#'   \item Call - the formula of the model
+#'   \item Residuals - the usual residuals of the model
+#'   \item coefficients - a p\times 4 matrix with columns for the estimated coefficients, their standard error, t-statistics and p-value of the t-test
+#'   \item RSE - the square root of estimated variance (mean square error)
+#'   \item R_squared - the fraction of variance explained by the model
+#'   \item adjusted_R_squared - the fraction of variance explained by the model penalized by p
+#'   \item f_value - the statistic of F test
+#'   \item p_f - the p value of F test
+#'   \item df - degrees of freedom, a 2-vector (p,n-p)
+#' }
 #'
 #'@examples
 #
 #'mylm( mpg~wt+gear,inputdata = mtcars, style = "summary" )
+#'mylm( mtcars$mpg~mtcars$wt+mtcars$gear )
 #'
 #'@export
 #'
@@ -59,22 +71,27 @@ mylm <- function(obj, inputdata=NULL, style="simple"){
   coef.mat <- data.frame(coef)
   coef.mat <- signif(coef.mat, digits=7)
   coef.mat$p_value[coef.mat$p_value==0] <- "< 2e-16" #printing format
-  output <- list( Call = obj, Residuals= e.hat, coefficients=coef, RSE = SE, R_squared = R.square, adjusted_R_squared = adj.R.square, f_value = F.stat, df = n-p )
+  output <- list( Call = obj, Residuals= e.hat, coefficients=coef, RSE = SE, R_squared = R.square, adjusted_R_squared = adj.R.square, f_value = F.stat, p_f = Ftest.p.value, df = c( p, n-p ) )
   #print output
   if(style=="summary"){
-    cat("Call:\n",
-        as.character(obj)[2],as.character(obj)[1],as.character(obj)[3],"\n","\n")
-    cat("Coefficients:\n")
+    cat( "Call:\n",
+        as.character(obj)[2],as.character(obj)[1],as.character(obj)[3],"\n","\n" )
+    cat( "Coefficients:\n" )
     print(coef.mat)
-    cat("\n")
-    cat("Residual standard error:", signif(SE,4), "on", n-p, "degrees of freedom", "\n")
-    cat("Multiple R-squared:", signif(R.square,4), "Adjusted R-squared", signif(adj.R.square,4), "\n")
+    cat( "\n" )
+    cat( "Residual standard error:", signif(SE,4), "on", n-p, "degrees of freedom", "\n" )
+    cat( "Multiple R-squared:", signif(R.square,4), "Adjusted R-squared", signif(adj.R.square,4), "\n" )
     cat( "F statistic:", F.stat, "on", n-p, "degrees of freedom", "\n")
   }else if( style == "simple" ){
-    cat("Call:\n",
-        as.character(obj)[2],as.character(obj)[1],as.character(obj)[3],"\n","\n")
-    cat("Coefficients:\n")
-    cat(t(beta.hat))
+    colnames(beta.hat) <- "Estimate"
+    cat( "Call:\n",
+        as.character(obj)[2],as.character(obj)[1],as.character(obj)[3],"\n","\n" )
+    cat( "Coefficients:\n" )
+    print( t(beta.hat) )
+  }else if( style == "nothing"){
+    #print nothing
+  }else{
+    warning( "Invalid stlye" )
   }
   invisible(output)
 }
