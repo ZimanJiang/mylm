@@ -1,6 +1,8 @@
-#'mylm
+#'Fitting linear Models
 #'
-#'Fit the linear regression model
+#'Fit the linear regression model.
+#'
+#'@import stats, datasets
 #'
 #'@param obj input formula
 #'@param inputdata dataset
