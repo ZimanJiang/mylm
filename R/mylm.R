@@ -9,6 +9,7 @@
 #'@return
 #'#' \itemize{
 #'   \item Call - the formula of the model
+#'   \item fitted_value - the fitted mean value
 #'   \item Residuals - the usual residuals of the model
 #'   \item coefficients - a p\times 4 matrix with columns for the estimated coefficients, their standard error, t-statistics and p-value of the t-test
 #'   \item RSE - the square root of estimated variance (mean square error)
@@ -67,11 +68,22 @@ mylm <- function(obj, inputdata=NULL, style="simple"){
   ##output
   df <- n-p
   #coefficient matrix
-  coef <- cbind( Estimate = c(beta.hat), Std_Err = se.beta.hat, t_statistic = t.stat, p_value = ttest.p.value )
-  coef.mat <- data.frame(coef)
+  coef <- cbind( Estimate = c(beta.hat),
+                 Std_Err = se.beta.hat,
+                 t_statistic = t.stat,
+                 p_value = ttest.p.value )
+  coef.mat <- data.frame( coef )
   coef.mat <- signif(coef.mat, digits=7)
   coef.mat$p_value[coef.mat$p_value==0] <- "< 2e-16" #printing format
-  output <- list( Call = obj, Residuals= e.hat, coefficients=coef, RSE = SE, R_squared = R.square, adjusted_R_squared = adj.R.square, f_value = F.stat, p_f = Ftest.p.value, df = c( p, n-p ) )
+  output <- list( Call = obj,
+                  fitted_value = y.hat,
+                  Residuals= e.hat,
+                  coefficients=coef,
+                  RSE = SE, R_squared = R.square,
+                  adjusted_R_squared = adj.R.square,
+                  f_value = F.stat,
+                  p_f = Ftest.p.value,
+                  df = c( p, n-p ) )
   #print output
   if(style=="summary"){
     cat( "Call:\n",
