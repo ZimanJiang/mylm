@@ -29,8 +29,8 @@
 #'
 #'@examples
 #
-#'mylm( mpg~wt+gear,inputdata = mtcars, style = "summary" )
-#'mylm( mtcars$mpg~mtcars$wt+mtcars$gear )
+#'mylm( mpg~wt+drat,inputdata = mtcars, style = "summary" )
+#'mylm( mtcars$mpg~mtcars$wt+mtcars$drat )
 #'
 #'@export
 #'

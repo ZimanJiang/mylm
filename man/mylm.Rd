@@ -31,7 +31,7 @@ mylm(obj, inputdata = NULL, style = "simple")
 Fit the linear regression model.
 }
 \examples{
-mylm( mpg~wt+gear,inputdata = mtcars, style = "summary" )
-mylm( mtcars$mpg~mtcars$wt+mtcars$gear )
+mylm( mpg~wt+drat,inputdata = mtcars, style = "summary" )
+mylm( mtcars$mpg~mtcars$wt+mtcars$drat )
 
 }
