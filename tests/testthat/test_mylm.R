@@ -59,6 +59,13 @@ test_that("mylm works for the simple linear regression",{
   test_mylm (mylm1, lm1)
 })
 
+#input without dataset
+test_that("mylm works for not including dataset",{
+  mylm1 <- mylm(mtcars$mpg~mtcars$wt,style="nothing")
+  lm1 <- summary(lm(mtcars$mpg~mtcars$wt))
+  test_mylm (mylm1, lm1)
+})
+
 #choose different printing style
 test_that("mylm works for the complete printing version",{
   mylm1 <- mylm(mpg~wt,mtcars,"summary")
