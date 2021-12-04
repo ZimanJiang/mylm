@@ -106,7 +106,7 @@ mylm <- function(obj, inputdata=NULL, style="simple"){
   }else if( style == "nothing"){
     #print nothing
   }else{
-    warning( "Invalid stlye" )
+    warning( "Invalid style" )
   }
   invisible(output)
 }
