@@ -21,7 +21,7 @@ library(zmjianglm)
 ```
 
 
-#Introduction
+## Introduction
 The main function `mylm` is trying to do the linear regression procedures including estimation and inference and get some important values. `mylm` combines `lm` and `summary.lm` in pacakge `stats` together. Users can choose to print or not to print the output and can also choose either a simple version or a complete version to print. The simple version is similar to the output of `lm` and the complete version is similar to the output of `summary.lm`. The function would return a list of elements which is almost the same as `summary.lm` no matter what printing style is chosen.
 And the function `predictlm` is written for get predicted value in a new data set based on the fitted model.
 The example data set is `mtcars`, which is included in package `datasets`. More information could be viewed by:
@@ -30,8 +30,8 @@ The example data set is `mtcars`, which is included in package `datasets`. More 
 ?mtcars
 ```
 
-#Usage
-##Usage of `mylm`
+## Usage
+### Usage of `mylm`
 To use the function `mylm`:
 ```{r}
 mylm(mpg~wt,mtcars,"nothing")
@@ -61,7 +61,7 @@ Do transformation on covariate:
 mylm(mpg~wt+drat+I(wt^2),mtcars,"summary")
 ```
 
-##Usage of `predictlm`
+### Usage of `predictlm`
 To use function `predictlm`
 ```{r}
 n <- nrow(mtcars)
@@ -73,8 +73,8 @@ mylm1 <- mylm(mpg~wt,traindata,"nothing")
 predicted_value <- predictlm(mylm1,testdata)
 ```
 
-#Comparison
-##Correctness
+## Comparison
+### Correctness
 The correctness is tested by `testthat`. All the tests are passed. Basically, I compared the result of `summary.lm` and `mylm` as well as the result of `predict.lm` and `predictlm`. The example of correctness testing is as the following: 
 ```{r}
 #mylm
@@ -95,8 +95,8 @@ mylm1 <- mylm(mpg~wt,traindata,"nothing")
 lm1 <- lm(mpg~wt,traindata)
 all.equal(sum(predictlm(mylm1,testdata)-predict(lm1,testdata)), 0, tolerance = 1e-6)
 ```
-##Efficiency
 
+### Efficiency
 I compare the efficiency between `mylm` and `summary.lm`. `mylm` has a lower efficiency. 
 
 ```{r}
