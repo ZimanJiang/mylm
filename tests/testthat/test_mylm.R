@@ -51,11 +51,29 @@ test_mylm <- function(mymodel, lmmodel){
 }
 
 ##tests
+
 #SLR
 test_that("mylm works for the simple linear regression",{
   mylm1 <- mylm(mpg~wt,mtcars,"nothing")
   lm1 <- summary(lm(mpg~wt,mtcars))
   test_mylm (mylm1, lm1)
+})
+
+#choose different printing style
+test_that("mylm works for the complete printing version",{
+  mylm1 <- mylm(mpg~wt,mtcars,"summary")
+  lm1 <- summary(lm(mpg~wt,mtcars))
+  test_mylm (mylm1, lm1)
+})
+test_that("mylm works for the simple printing version",{
+  mylm1 <- mylm(mpg~wt,mtcars)
+  lm1 <- summary(lm(mpg~wt,mtcars))
+  test_mylm (mylm1, lm1)
+})
+
+#warning testing
+test_that("mylm would show warning if the style is invalid",{
+  expect_warning(mylm(mpg~wt,mtcars,"invalid style"),"Invalid style")
 })
 
 #MLR
