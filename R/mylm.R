@@ -11,20 +11,17 @@
 #'
 #'
 #'
-#'@return
-#' \itemize{
-#'   \item Call - the formula of the model
-#'   \item fitted_value - the fitted mean value
-#'   \item Residuals - the usual residuals of the model
-#'   \item coefficients - a p*4 matrix with columns for the estimated coefficients, their standard error, t-statistics and p-value of the t-test
-#'   \item RSE - the square root of estimated variance (mean square error)
-#'   \item R_squared - the fraction of variance explained by the model
-#'   \item adjusted_R_squared - the fraction of variance explained by the model penalized by p
-#'   \item f_value - the statistic of F test
-#'   \item p_f - the p value of F test
-#'   \item df - degrees of freedom, a 2-vector (p,n-p)
-#' }
-#'
+#'@return a list containing the following components:
+#'@return \item{Call}{the formula of the model}
+#'@return \item{fitted_value}{the fitted mean value}
+#'@return \item{Residuals}{the usual residuals of the model}
+#'@return \item{coefficients}{a p*4 matrix with columns for the estimated coefficients, their standard error, t-statistics and p-value of the t-test}
+#'@return \item{RSE}{the square root of estimated variance (mean square error)}
+#'@return \item{R_squared}{the fraction of variance explained by the model}
+#'@return \item{adjusted_R_squared}{the fraction of variance explained by the model penalized by p}
+#'@return \item{f_value}{the statistic of F test}
+#'@return \item{p_f}{the p value of F test}
+#'@return \item{d_f}{degrees of freedom, a 2-vector (p,n-p)}
 #'
 #'
 #'@examples
@@ -73,24 +70,23 @@ mylm <- function(obj, inputdata=NULL, style="simple"){
   R.square <- 1- SSE /( SSE + SSR )
   adj.R.square <- 1- sigma.2.hat * ( n-1 )/( SSE + SSR )
   ##output
-  df <- n-p
   #coefficient matrix
-  coef <- cbind( Estimate = c(beta.hat),
-                 Std_Err = se.beta.hat,
-                 t_statistic = t.stat,
-                 p_value = ttest.p.value )
-  coef.mat <- data.frame( coef )
-  coef.mat <- signif(coef.mat, digits=7)
-  coef.mat$p_value[coef.mat$p_value==0] <- "< 2e-16" #printing format
+  coef.mat <- cbind( Estimate = c(beta.hat),
+                     Std_Err = se.beta.hat,
+                     t_statistic = t.stat,
+                     p_value = ttest.p.value )
+  coef.df <- signif(coef.mat, digits=7)
+  #coef.df <- data.frame( coef.mat )
+  #coef.df$p_value[coef.df$p_value==0] <- "< 2e-16" #printing format
   output <- list( Call = obj,
                   fitted_value = y.hat,
                   Residuals= e.hat,
-                  coefficients=coef,
+                  coefficients=coef.mat,
                   RSE = SE, R_squared = R.square,
                   adjusted_R_squared = adj.R.square,
                   f_value = F.stat,
                   p_f = Ftest.p.value,
-                  df = c( p, n-p ) )
+                  d_f = c( p, n-p ) )
   #print output
   if(style=="summary"){
     cat( "Call:\n",

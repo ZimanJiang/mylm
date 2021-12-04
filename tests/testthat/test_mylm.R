@@ -42,10 +42,10 @@ test_mylm <- function(mymodel, lmmodel){
                 unname(lmmodel$fstatistic[1]),
                 tolerance=diff )
   #degree of freedom
-  expect_equal( mymodel$df[1],
+  expect_equal( mymodel$d_f[1],
                 lmmodel$df[1],
                 tolerance=diff )
-  expect_equal( mymodel$df[2],
+  expect_equal( mymodel$d_f[2],
                 lmmodel$df[2],
                 tolerance=diff )
 }
@@ -67,8 +67,8 @@ test_that("mylm works for the multiple linear regression",{
 
 #MLR with categorical covariate
 test_that("mylm works for the multiple linear regression with categorical covariate",{
-  mylm3 <- mylm(mpg~wt+drat+factor(gear),mtcars,"nothing")
-  lm3 <- summary(lm(mpg~wt+drat+factor(gear),mtcars))
+  mylm3 <- mylm(mpg~wt+drat+factor(cyl),mtcars,"nothing")
+  lm3 <- summary(lm(mpg~wt+drat+factor(cyl),mtcars))
   test_mylm (mylm3, lm3)
 })
 
@@ -85,11 +85,3 @@ test_that("mylm works for the multiple linear regression with transformed covari
   lm5 <- summary(lm(mpg~wt+drat+I(wt^2),mtcars))
   test_mylm (mylm5, lm5)
 })
-
-#MLR with transformed covariate
-# test_that("mylm works for the multiple linear regression without intercept",{
-#   mylm6 <- mylm(mpg~-1+wt+drat,mtcars,"nothing")
-#   lm6 <- summary(lm(mpg~-1+wt+drat,mtcars))
-#   test_mylm (mylm6, lm6)
-# })
-
